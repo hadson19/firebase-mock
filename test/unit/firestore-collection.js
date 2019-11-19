@@ -224,7 +224,18 @@ describe('MockFirestoreCollection', function () {
         expect(results4).to.eventually.have.property('size').to.equal(3),
         expect(results5).to.eventually.have.property('size').to.equal(3),
         expect(results6).to.eventually.have.property('size').to.equal(0),
-        expect(results7).to.eventually.have.property('size').to.equal(0)
+        expect(results7).to.eventually.have.property('size').to.equal(0),
+      ]);
+    });
+
+    it('returns matched documents for operator "array-contains"', function() {
+      var results1 = collection.where('array', 'array-contains', 'x').get();
+      var results2 = collection.where('array', 'array-contains', 'z').get();
+      db.flush();
+
+      return Promise.all([
+        expect(results1).to.eventually.have.property('size').to.equal(2),
+        expect(results2).to.eventually.have.property('size').to.equal(0),
       ]);
     });
 
